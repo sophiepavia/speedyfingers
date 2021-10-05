@@ -4,7 +4,6 @@
 Download zip from github  
 `$ pip install pygame`
 
-
 `$ python3 speedyFinger.py`
 
 
