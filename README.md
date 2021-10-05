@@ -2,6 +2,8 @@
 
 ## Execute
 Download zip from github  
+'$ pip install pygame'
+'$ python3 speedyFinger.py'
 
 
 ## Description
@@ -21,9 +23,9 @@ a speed typing application/game for users to test, improve, and challenge their 
 (added beyond project proposal)
 
 ## Seperation of Work
-- Sophie:
-- Alessandra:
-- Diego:
+- Sophie:Project plan, inital skeleton of project, graphics
+- Alessandra:project plan
+- Diego:project plan
 
 ## Bugs/Obstacles Faced
 
