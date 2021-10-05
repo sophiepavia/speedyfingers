@@ -2,9 +2,7 @@ import pygame
 from pygame.locals import *
 import sys
 import time
-import random
-# 750 x 500    
-
+  
 class Game:
 
     def __init__(self):
