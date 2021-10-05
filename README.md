@@ -19,7 +19,7 @@ a speed typing application/game for users to test, improve, and challenge their 
 - pygame
 
 ## Resources
-
+http://www.pygame.org/docs/tut/PygameIntro.html
 ## Added Features 
 (added beyond project proposal)
 
