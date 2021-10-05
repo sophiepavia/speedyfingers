@@ -2,8 +2,8 @@
 
 ## Execute
 Download zip from github  
-'$ pip install pygame'
-'$ python3 speedyFinger.py'
+`$ pip install pygame`
+`$ python3 speedyFinger.py`
 
 
 ## Description
