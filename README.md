@@ -4,7 +4,9 @@
 Download zip from github  
 `$ pip install pygame`
 
-`$ python3 speedyFinger.py`
+`$ pip install button`
+
+`$ python3 speedyFingers.py`
 
 
 ## Description
@@ -17,6 +19,7 @@ a speed typing application/game for users to test, improve, and challenge their 
 
 ## Libraries
 - pygame
+- button
 
 ## Resources
 http://www.pygame.org/docs/tut/PygameIntro.html
