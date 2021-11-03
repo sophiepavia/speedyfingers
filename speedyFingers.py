@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 import sys
 import time
+
   
 class Game:
 
@@ -60,6 +61,7 @@ class Game:
 
         self.reset=False
         self.end = False
+
 
 
         #draw home screen
