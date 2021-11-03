@@ -3,7 +3,7 @@
 ## Execute
 Download zip from github  
 `$ pip install pygame`
-'$ pip install button'
+`$ pip install button`
 
 `$ python3 speedyFingers.py`
 
