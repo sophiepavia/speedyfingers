@@ -2,24 +2,26 @@ import sqlite3
 import pandas as pd
 
 #Connect to database
-conn = sqlite3.connect('speedyfingersDB.db')
-cur = conn.cursor()
+
+def createDB():
+    conn = sqlite3.connect('speedyfingersDB.db')
+    cur = conn.cursor()
 
 
-###################### CREATE SQL TABLE FROM EXCEL, USE IN CASE OF DELETING DATABASE  ###################
+    ###################### CREATE SQL TABLE FROM EXCEL, USE IN CASE OF DELETING DATABASE  ###################
 
-# stories = pd.read_excel('children_stories.xlsx',sheet_name='childrenStories',header=0)
-# conn.execute('CREATE TABLE IF NOT EXISTS Stories(id INTEGER PRIMARY KEY AUTOINCREMENT, StoryName VARCHAR(150),Story VARCHAR(8000))')
-# stories.to_sql('Stories', conn, if_exists = 'append', index=False)
+    # stories = pd.read_excel('children_stories.xlsx',sheet_name='childrenStories',header=0)
+    # conn.execute('CREATE TABLE IF NOT EXISTS Stories(id INTEGER PRIMARY KEY AUTOINCREMENT, StoryName VARCHAR(150),Story VARCHAR(8000))')
+    # stories.to_sql('Stories', conn, if_exists = 'append', index=False)
 
-#########################################################################################################
+    #########################################################################################################
 
-#Basic Table Creation
+    #Basic Table Creation
 
-conn.execute('CREATE TABLE IF NOT EXISTS Users (userID INTEGER PRIMARY KEY AUTOINCREMENT,userName VARCHAR(100) NOT NULL, highScore FLOAT,avgScore FLOAT);')
-print("Users table created succesfully")
-conn.execute('CREATE TABLE IF NOT EXISTS Attempts(userID INT,textID INT,score FLOAT,attemptTime DATETIME DEFAULT CURRENT_TIMESTAMP,succesfullKeys INT,missedKeys INT);')
-print("Attempts table created succesfully")
+    conn.execute('CREATE TABLE IF NOT EXISTS Users (userID INTEGER PRIMARY KEY AUTOINCREMENT,userName VARCHAR(100) NOT NULL, highScore FLOAT,avgScore FLOAT);')
+    print("Users table created succesfully")
+    conn.execute('CREATE TABLE IF NOT EXISTS Attempts(userID INT,textID INT,score FLOAT,attemptTime DATETIME DEFAULT CURRENT_TIMESTAMP,succesfullKeys INT,missedKeys INT);')
+    print("Attempts table created succesfully")
 
 
 
