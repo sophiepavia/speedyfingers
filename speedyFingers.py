@@ -3,7 +3,6 @@ import button
 from pygame.locals import *
 import sys
 import time
-import DBsetup as DB
 
 
 
@@ -75,14 +74,13 @@ class Game:
         #if game is running, look for events
         while(self.running):
             stage_1.fill((0,0,0), (50,250,650,50))
-            arrow_button = Button(400, 350, self.arrow_img)
+            arrow_button = Button(700, 350, self.arrow_img)
             for event in pygame.event.get():
                 if event.type == QUIT:
                     self.running = False
                     sys.exit()
 
                 if arrow_button.draw() == True:
-
                     #draw home screen
                     stage_1.fill((0,0,0))
                     stage_1.blit(self.home,(0,0))
@@ -92,19 +90,6 @@ class Game:
                     self.draw_text(stage_1, msg,300, 80,self.HEAD_C)
                     self.draw_text(stage_1, msg2,400, 80,self.HEAD_C)
                     pygame.display.update()
-
-    # def stage_2(self, previousStage):
-    #     # draw home screen
-    #     stage_1.fill((0, 0, 0))
-    #     stage_1.blit(self.home, (0, 0))
-    #     # home message on main stage filled with background
-    #     msg = "Speedy"
-    #     msg2 = "Fingers"
-    #     self.draw_text(previousStage, msg, 300, 80, self.HEAD_C)
-    #     self.draw_text(previousStage, msg2, 400, 80, self.HEAD_C)
-    #     pygame.display.update()
-
-
 
     def reset_now(self):
     #go to intro screen, maybe in future change to go home screen
