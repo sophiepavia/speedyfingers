@@ -44,7 +44,9 @@ class Game:
         pygame.init()
 
         self.show_intro = pygame.image.load('intro.png')
-        self.show_intro = pygame.transform.scale(self.show_intro, (self.w,self.h))	
+
+        self.show_intro = pygame.transform.scale(self.show_intro, (self.w,self.h))
+
 
         self.home = pygame.image.load('home.png')
         self.home = pygame.transform.scale(self.home, (self.w,self.h))
