@@ -6,21 +6,6 @@ import time
 import DBsetup as DB
 
 
-#Global variables
-#Game modes
-isActive = False
-reset = True
-end = False
-
-#for stats
-user_input = ''
-word = ''
-wpm = 0
-
-#for timing stats
-start = 0
-totalTime = 0
-
 def main():
     pygame.init()
     DB.createDB()
@@ -52,7 +37,9 @@ def introScreen(screen, w, h):
         pygame.display.update()
 
 def mainMenu(screen, w, h):
+
     background = pygame.image.load('menu.png')
+
     background = pygame.transform.scale(background, (w, h))
     pygame.display.set_caption("Main Menu")
 
@@ -68,6 +55,7 @@ def mainMenu(screen, w, h):
             elif playButton.is_clicked(event):
                 print("play button pressed")
                 play(screen, w, h)
+
             elif statsButton.is_clicked(event):
                 print("stats button pressed")
             elif otherButton.is_clicked(event):
@@ -245,9 +233,5 @@ class Button(object):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 return self.rect.collidepoint(event.pos)
-
-
-
-
 
 main()
