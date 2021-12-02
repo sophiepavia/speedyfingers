@@ -3,95 +3,118 @@ import button
 from pygame.locals import *
 import sys
 import time
-import DBsetup as DB
+import DBsetup as DB #for DBsetup.py
 import random
 import sqlite3 as sql
 
+# main program
 def main():
     pygame.init()
+
+    #creates speedyfingersDB.db with DBsetup.py
     DB.createDB()
+
+    #sets pygame width & height
     width = 1000
     height = 750
 
-    # show intro screen
+    # set intro screen
     screen = pygame.display.set_mode((width, height))
     introScreen(screen, width, height)
 
-
+# main intro screen
 def introScreen(screen, w, h):
+    #set background to intro image
     background = pygame.image.load('intro.png')
     background = pygame.transform.scale(background, (w, h))
+
+    #create main menu button
     nextScreenButton = Button((360, 560), (345, 100), (98,219,200), "Go to Main Menu")
-    white = (255, 255, 255)
+
+    # event listener loop
     while True:
-        # screen.fill(white)
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+            if event.type == pygame.QUIT: #exit window button
                 pygame.quit()
                 quit()
+
             if nextScreenButton.is_clicked(event):
                 print("button pressed")
-                mainMenu(screen, w, h)
+                mainMenu(screen, w, h) #go to main menu
+
+        # blit screen with background & draw button
         screen.blit(background, (0, 0))
         nextScreenButton.draw(screen)
         pygame.display.update()
 
+# main menu screen
 def mainMenu(screen, w, h):
 
+    #set background to main menu screen
     background = pygame.image.load('menu.png')
-
     background = pygame.transform.scale(background, (w, h))
-    pygame.display.set_caption("Main Menu")
 
+    #create mode buttons
     playButton = Button((535, 68), (377, 133), (98,219,200), "Play!")
     statsButton = Button((535, 270), (377, 133), (98, 219, 200), "Check Your Stats!")
     directionsButton = Button((535, 480), (377, 133), (98, 219, 200), "Directions")
 
+    #action listener loop
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
+
             elif playButton.is_clicked(event):
                 print("play button pressed")
-                play(screen, w, h)
+                play(screen, w, h) #go to play screen
 
             elif statsButton.is_clicked(event):
-                stats(screen)
+                stats(screen) #go to stats screen
                 print("stats button pressed")
+
             elif directionsButton.is_clicked(event):
-                directions(screen)
+                directions(screen) #go to directions screen
                 print("directions button pressed")
 
+        #blit screen with background & buttons
         screen.blit(background, (0, 0))
         playButton.draw(screen)
         statsButton.draw(screen)
         directionsButton.draw(screen)
         pygame.display.update()
 
+# play mode screen
 def play(screen, w,h):
 
+    #function var for sentences
     user_input = ''
     word = ''
-
+    #for timing 
     start = 0
     totalTime = 0
+    #wpm stats 
     wpm = 0
-
+    #game mode vars
     isActive = False
     reset = False
     end = False
 
+    #pull random sentence from txt file
     file = open('sentences.txt').read()
     sentences = file.split('\n')
     word= random.choice(sentences)
 
+    #set play background
     background = pygame.image.load('play.png')
     background = pygame.transform.scale(background, (w, h))
 
+    #set & blit screen for background
     screen.fill((0,0,0))
     screen.blit(background, (0,0))
 
+    #draw text box
     pygame.draw.rect(screen,(102,255,243), (50,300,900,100), 2)
 
     #display sentence to type
@@ -99,7 +122,8 @@ def play(screen, w,h):
     text = font.render(word, 1,(240,240,240))
     text_rect = text.get_rect(center=(1000/2, 275))
     screen.blit(text, text_rect)
-    #directions
+
+    #display directions
     font = pygame.font.Font(None, 20)
     text = font.render("Click box to type", 1,(240,240,240))
     text_rect = text.get_rect(center=(500, 415))
@@ -109,15 +133,18 @@ def play(screen, w,h):
     backButton = Button((50, 600), (200, 90), (240,240,240), "Back to Main")
     backButton.draw(screen)
 
-    running=True
+
+    running=True #state of game
     while running:
+
         #start time clock
         clock = pygame.time.Clock()
 
         #draw rect box
         screen.fill((240,240,240), (50,300,900,100))
         pygame.draw.rect(screen,(102,255,243), (50,300,900,100), 2)
-        #updates typing string
+
+        #updates user's input string
         font = pygame.font.Font(None, 24)
         text = font.render(user_input, 1,(105,105,105))
         text_rect = text.get_rect(center=(1000/2, 350))
@@ -125,50 +152,60 @@ def play(screen, w,h):
 
         pygame.display.update()
 
+        #event listener loop
         for event in pygame.event.get():
             if event.type == QUIT:
                 running = False
                 sys.exit()
+
+            #listen for mouse click
             elif event.type == pygame.MOUSEBUTTONUP:
                 x,y = pygame.mouse.get_pos()
-                #set position for type rectangle box
+
+                #if user clicks in text box
                 if(x>=50 and x<=900 and y>=200 and y<=750):
-                    isActive = True
+                    isActive = True #start game & time
                     input_text = ''
                     start = time.time()
-                # position of reset box
+
+                #if users clicks reset button
                 if(x>=310 and x<=510 and y>=390 and end):
+
+                    #reset function vars
                     user_input = ''
                     word = ''
-
                     start = 0
                     totalTime = 0
                     wpm = 0
-
                     isActive = False
                     reset = False
                     end = False
 
+                    #grab new rando sentence
                     file = open('sentences.txt').read()
                     sentences = file.split('\n')
                     word= random.choice(sentences)
 
+                    #reset play background
                     background = pygame.image.load('play.png')
                     background = pygame.transform.scale(background, (w, h))
 
                     screen.fill((240,240,240))
                     screen.blit(background, (0,0))
 
+                    #reset text box
                     pygame.draw.rect(screen,(102,255,243), (50,300,900,100), 2)
+
                     #draw button again 
                     backButton.draw(screen)
-                    #display new word
+
+                    #display new sentence
                     font = pygame.font.Font(None, 24)
                     text = font.render(word, 1,(240,240,240))
                     text_rect = text.get_rect(center=(1000/2, 275))
                     screen.blit(text, text_rect)
 
-                    #directions
+                    #display directions
                     font = pygame.font.Font(None, 21)
                     text = font.render("Click box to type", 1,(240,240,240))
                     text_rect = text.get_rect(center=(500, 415))
@@ -176,14 +213,22 @@ def play(screen, w,h):
                     pygame.display.update()
                     x,y = pygame.mouse.get_pos()
 
+            #listens for key press
             elif event.type == pygame.KEYDOWN:
+                #if game is cur active & not over
                 if isActive and not end:
+                    #if return key is pressed
                     if event.key == pygame.K_RETURN:
+
+                        #to terminal
                         print(user_input)
+
                         #get results and stats of play
                         if not end:
+                            #calc total time took
                             totalTime = time.time() - start
 
+                            #determine percent chars correct
                             count = 0
                             for i, char in enumerate(word):
                                 try:
@@ -193,33 +238,39 @@ def play(screen, w,h):
                                     pass
                             percent = count/len(word)*100
 
+                            #determine words typed per minute
                             wpm = len(user_input)*60/(5*totalTime)
+
+                            #set game to over
                             end = True
-                            #enter stats in db
+
+                            #send stats in db
                             with sql.connect("speedyfingersDB.db") as con:
                                 cur = con.cursor()
                                 #query for Stats
                                 cur.execute("INSERT INTO Stats (totalTime,wpm,percent) VALUES (?,?,?)", (totalTime,wpm,percent) )
                                 con.commit()
-                            con.close()
+                            con.close() #close connections
 
                             #show reset button
                             results = "Time: " + str(round(totalTime)) + " secs   Percent: " + str(round(percent)) + "%" + "   WPM: " + str(round(wpm))
                             again = pygame.image.load('playagain.png')
                             again = pygame.transform.scale(again, (150,150))
                             screen.blit(again, (500-75, 750-250))
-
+                        #to terminal
                         print(results)
 
+                        #display stats to user
                         font = pygame.font.Font(None, 28)
                         text = font.render(results, 1,(240, 240, 240))
                         text_rect = text.get_rect(center=(500, 450))
                         screen.blit(text, text_rect)
 
+                        #game over
                         end = True
                         pygame.display.update()
 
-
+                    #if key is backspace delete user input
                     elif event.key == pygame.K_BACKSPACE:
                         user_input = user_input[:-1]
 
@@ -228,25 +279,29 @@ def play(screen, w,h):
                            user_input += event.unicode
                         except:
                            pass
+
+            #if user presses main menu button
             elif backButton.is_clicked(event):
                 mainMenu(screen, 1000, 750)
-        #screen.blit(background, (0, 0))
+
+    #clock by seconds
     clock.tick(60)
 
-
-
-
+# directions screen
 def directions(screen):
+
+    #set directions background image
     background = pygame.image.load('directions.png')
     background = pygame.transform.scale(background, (1000, 750))
 
     screen.fill((0,0,0))
     screen.blit(background, (0,0))
 
+    #create back button
     backButton = Button((150, 600), (200, 90), (240, 240, 240), "Back to Main")
 
+    #create & display intro & 3 directions
     directions = "Welcome to the best game ever: SpeedyFingers!!" 
-    #To play the game, type the sentence shown as fast and as accurate as you can"
     font = pygame.font.Font(None, 45)
     text = font.render(directions, 1,(105,105,105))
     text_rect = text.get_rect(center=(1000/2, 200))
@@ -268,32 +323,37 @@ def directions(screen):
     text_rect3 = text.get_rect(center=(600, 400))
     screen.blit(text3, text_rect3)
 
-    #screen.blit(background, (0, 0))
+    #draw button and text
     backButton.draw(screen)
     pygame.display.update()
+
+    #event listener loop
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
+
+            #if back button is pressed -> mainmenu
             elif backButton.is_clicked(event):
                 print("back button pressed")
                 mainMenu(screen, 1000, 750)
 
-        #screen.blit(background, (0, 0))
-        #backButton.draw(screen)
-        #pygame.display.update()
-
+#stats screen
 def stats(screen):
+
     #connect to db
     con = sql.connect("speedyfingersDB.db")
     con.row_factory = sql.Row
     cur = con.cursor()
+
     #query executed
     cur.execute('select * from Stats ORDER BY percent DESC LIMIT 5')
+
     #get results
     rows = cur.fetchall()
 
+    #gather row cells into one sentence & put in list
     i = 0
     results = []
     for _ in rows:
@@ -305,20 +365,22 @@ def stats(screen):
         final = str(time) + "          " + str(wpm) + "            "+ str(percent)
         results.append(final)
 
+    #set background to stats image
     background = pygame.image.load('stats.png')
     background = pygame.transform.scale(background, (1000, 750))
 
     screen.fill((0,0,0))
     screen.blit(background, (0,0))
 
+    #create back button
     backButton = Button((75, 600), (200, 90), (98, 219, 200), "Back to Main")
 
+    #display screen text
     directions = "All Time Top 5! (Ranked by best Percent!)" 
     font = pygame.font.Font(None, 45)
     text = font.render(directions, 1,(105,105,105))
     text_rect = text.get_rect(center=(1000/2, 300))
     screen.blit(text, text_rect)
-
 
     stats = "Time  WPM  Percent"
     font = pygame.font.Font(None, 45)
@@ -326,6 +388,7 @@ def stats(screen):
     text_rect = text.get_rect(center=(1000/2, 340))
     screen.blit(text, text_rect)
 
+    #display list of results row by row
     row = 400
     font1 = pygame.font.Font(None, 30)
     for res in results:
@@ -333,8 +396,11 @@ def stats(screen):
         screen.blit(text1, (395, row))
         row += 50
 
+    #draw button & update screen
     backButton.draw(screen)
     pygame.display.update()
+
+    #event listener loop
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -344,9 +410,9 @@ def stats(screen):
                 print("back button pressed")
                 mainMenu(screen, 1000, 750)
 
-
-
+#Button class
 class Button(object):
+    #constructor
     def __init__(self, position, size, color, text):
         self.image = pygame.Surface(size)
         self.image.fill(color)
@@ -362,12 +428,15 @@ class Button(object):
         # set after centering text
         self.rect.topleft = position
 
+    #draw button function
     def draw(self, screen):
         screen.blit(self.image, self.rect)
 
+    #if clicked function
     def is_clicked(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 return self.rect.collidepoint(event.pos)
 
+#call to main to play :)
 main()
