@@ -5,7 +5,7 @@ import pandas as pd
 
 def createDB():
     conn = sqlite3.connect('speedyfingersDB.db')
-    cur = conn.cursor()
+#    cur = conn.cursor()
 
 
     ###################### CREATE SQL TABLE FROM EXCEL, USE IN CASE OF DELETING DATABASE  ###################
@@ -18,26 +18,28 @@ def createDB():
 
     #Basic Table Creation
 
-    conn.execute('CREATE TABLE IF NOT EXISTS Users (userID INTEGER PRIMARY KEY AUTOINCREMENT,userName VARCHAR(100) NOT NULL, highScore FLOAT,avgScore FLOAT);')
-    print("Users table created succesfully")
-    conn.execute('CREATE TABLE IF NOT EXISTS Attempts(userID INT,textID INT,score FLOAT,attemptTime DATETIME DEFAULT CURRENT_TIMESTAMP,succesfullKeys INT,missedKeys INT);')
+#    conn.execute('CREATE TABLE IF NOT EXISTS Users (userID INTEGER PRIMARY KEY AUTOINCREMENT,userName VARCHAR(100) NOT NULL, highScore FLOAT,avgScore FLOAT);')
+#    print("Users table created succesfully")
+#    conn.execute('CREATE TABLE IF NOT EXISTS Attempts(userID INT,textID INT,score FLOAT,attemptTime DATETIME DEFAULT CURRENT_TIMESTAMP,succesfullKeys INT,missedKeys INT);')
+
+    conn.execute('CREATE TABLE IF NOT EXISTS Stats(totalTime int, wpm int, percent int)') 
     print("Attempts table created succesfully")
     conn.close()
 
-def addUser(name):
-    conn = sqlite3.connect('speedyfingersDB.db')
-    cur = conn.cursor()
-    cur.execute("INSERT INTO Users (userName, highScore, avgScore) SELECT ?,?,? WHERE NOT EXISTS(SELECT * FROM Users WHERE userName = ?)",(name, 0, 0, name))
-    conn.commit()
-    conn.close()
+#def addUser(name):
+#    conn = sqlite3.connect('speedyfingersDB.db')
+#    cur = conn.cursor()
+#    cur.execute("INSERT INTO Users (userName, highScore, avgScore) SELECT ?,?,? WHERE NOT EXISTS(SELECT * FROM Users WHERE userName = ?)",(name, 0, 0, name))
+#    conn.commit()
+#    conn.close()
 
-def getUserInfo(name):
-    conn = sqlite3.connect('speedyfingersDB.db')
-    cur = conn.cursor()
-    cur.execute("SELECT * FROM Users WHERE  userName = ?",(name))
-    table = cur.fetchall()
-    conn.close()
-    return table
+#def getUserInfo(name):
+#    conn = sqlite3.connect('speedyfingersDB.db')
+#    cur = conn.cursor()
+#    cur.execute("SELECT * FROM Users WHERE  userName = ?",(name))
+#    table = cur.fetchall()
+#    conn.close()
+#    return table
 
 
 
@@ -70,8 +72,6 @@ def getUserInfo(name):
 # cur.execute("SELECT userName FROM Users WHERE userID = '1'")
 # user = cur.fetchone()[0]
 # print("Current user is = " + user)
-
-
 
 
 
