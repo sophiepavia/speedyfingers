@@ -32,7 +32,7 @@ a speed typing application/game for users to test, improve, and challenge their 
 ## Resources
 https://www.pygame.org/docs/
 ## Added Features 
-We implemented the main goals of our project proposal but modes to play, check stats, and look at directions
+We implemented the main goals of our project proposal for having the modes play, check stats, and look at directions
 
 ## Seperation of Work
 - Sophie:Project plan, overall logic, play mode,stat mode, directions mode, graphics, database connection & query
@@ -40,5 +40,5 @@ We implemented the main goals of our project proposal but modes to play, check s
 - Diego:project plan, inital skelton of project, Button CLass, database creation (DBsetup.py), function set up, menu page
 
 ## Bugs/Obstacles Faced
-Due to time constraints there is only one level of 'play' (one level of difficulity)
+Due to time constraints there is only one level of 'play' (one level of difficulity). We also only went with using one DB for storing user stats instead of one for user stats, another for storing sentences. We no longer use pandas library (said in status report 2). 
 
