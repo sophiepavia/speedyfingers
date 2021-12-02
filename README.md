@@ -6,7 +6,11 @@ Download zip from github
 
 `$ pip install button`
 
-`$ python3 speedyFingers.py`
+'$ sudo apt install sqlite3'
+
+`$ python3 newSpeedy.py`
+
+- program created a database called speedyfingersDB.db when command above is executed, to clear DB delete file
 
 
 ## Description
