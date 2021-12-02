@@ -348,7 +348,7 @@ def stats(screen):
     cur = con.cursor()
 
     #query executed
-    cur.execute('select * from Stats ORDER BY percent DESC LIMIT 5')
+    cur.execute('select * from Stats ORDER BY percent DESC, wpm DESC, totalTime ASC  LIMIT 5')
 
     #get results
     rows = cur.fetchall()
