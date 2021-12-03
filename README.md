@@ -43,7 +43,9 @@ We implemented the main goals of our project proposal for having the modes play,
 ## Bugs/Obstacles Faced
 Due to time constraints there is only one level of 'play' (one level of difficulity). We also only went with using one DB for storing user stats instead of one for user stats, another for storing sentences. We no longer use pandas library (said in status report 2). 
 
-## GitHub Link
+## GitHub & Youtube Link
 https://github.com/sophiepavia/speedyfingers
+
+https://youtu.be/y9OyxV6cO1A
 
 
