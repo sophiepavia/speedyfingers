@@ -7,6 +7,7 @@ import DBsetup as DB #for DBsetup.py
 import random
 import sqlite3 as sql
 import pygame.freetype
+from difflib import SequenceMatcher #for percent calculation
 
 # main program
 def main():
@@ -279,14 +280,8 @@ def play(screen, w,h):
                             totalTime = time.time() - start
 
                             #determine percent chars correct
-                            count = 0
-                            for i, char in enumerate(word):
-                                try:
-                                    if user_input[i] == char:
-                                        count +=1
-                                except:
-                                    pass
-                            percent = count/len(word)*100
+                            percent = SequenceMatcher(None, user_input, word).ratio()
+                            percent = percent*100
 
                             #determine words typed per minute
                             wpm = len(user_input)*60/(5*totalTime)

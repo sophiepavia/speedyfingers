@@ -28,6 +28,7 @@ a speed typing application/game for users to test, improve, and challenge their 
 - time
 - random
 - sqlite3
+- from difflib import SequenceMatcher
 
 ## Resources
 https://www.pygame.org/docs/
