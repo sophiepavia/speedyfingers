@@ -12,7 +12,7 @@ from difflib import SequenceMatcher #for percent calculation
 # main program
 def main():
     pygame.init()
-    
+
     #window name
     pygame.display.set_caption('SpeedyFingers')
 
@@ -102,10 +102,10 @@ def play(screen, w,h):
     #function var for sentences
     user_input = ''
     word = ''
-    #for timing 
+    #for timing
     start = 0
     totalTime = 0
-    #wpm stats 
+    #wpm stats
     wpm = 0
     #game mode vars
     isActive = False
@@ -129,28 +129,18 @@ def play(screen, w,h):
     pygame.draw.rect(screen,(102,255,243), (50,300,900,100), 2)
 
     #display sentence to type
-    # tempFont = pygame.font.Font(None, 24)
-    # tempText = tempFont.render(word, 1,(240,240,240))
-    # temp_text_rect = tempText.get_rect(center=(1000/2, 275))
-    # print(text_rect)
-    # screen.blit(text, text_rect)
-
-    ## CHANGES #############################################
-    currentIdx = 0
-    displayedSentence = pygame.freetype.Font(None, 20)
+    currentIdx = 0 #location in sentence
+    displayedSentence = pygame.freetype.Font(None, 16)
     displayedSentence.origin = True
     fontHeight = displayedSentence.get_sized_height()
     hAdvance = 4
     displayed_sentence_text_rect = displayedSentence.get_rect(word)
 
+    #display highlight to user
     baseline = displayed_sentence_text_rect.y
     text_surf = pygame.Surface(displayed_sentence_text_rect.size)
     displayed_sentence_text_rect.center = [500,275]
-
     metrics = displayedSentence.get_metrics(word)
-
-
-    #########################################################
 
     #display directions
     font = pygame.font.Font(None, 20)
@@ -161,7 +151,6 @@ def play(screen, w,h):
     #back button
     backButton = Button((50, 600), (200, 90), (240,240,240), "Back to Main")
     backButton.draw(screen)
-
 
     running=True #state of game
     while running:
@@ -232,7 +221,7 @@ def play(screen, w,h):
 
                     #display new sentence
                     currentIdx = 0
-                    displayedSentence = pygame.freetype.Font(None, 20)
+                    displayedSentence = pygame.freetype.Font(None, 16)
                     displayedSentence.origin = True
                     fontHeight = displayedSentence.get_sized_height()
                     hAdvance = 4
@@ -256,12 +245,11 @@ def play(screen, w,h):
             elif event.type == pygame.KEYDOWN:
                 #if game is cur active & not over
                 if isActive and not end:
-                    ###### CHANGE ###############################
+                    #as user types, change index
                     if event.unicode and event.key != pygame.K_RETURN and event.key != pygame.K_BACKSPACE:
                         currentIdx += 1
                         newKey = True
-
-                    ######################################
+                    #if user backspace, dec index
                     if event.key == pygame.K_BACKSPACE:
                         currentIdx -= 1
                         newKey = True
@@ -329,21 +317,21 @@ def play(screen, w,h):
             elif backButton.is_clicked(event):
                 mainMenu(screen, 1000, 750)
 
+        #block for responsive highlight
         if first == True or newKey == True and finished == False:
-            text_surf.fill('white')
+            #makes highlight same as background
+            text_surf.fill((98,219,200))
             x = 0
+            #as user types, change color to red or green
             for (idx,(letter, metric)) in enumerate(zip(word, metrics)):
                 if idx == currentIdx:
-                    color = 'lightgrey'
+                    color = 'white'
                 elif idx > currentIdx:
-                    color = 'black'
+                    color = 'white'
                 elif idx < len(word)-2:
-                    # print("current index is:", idx)t
-                    # print("len of user input is: ", len(user_input))
-                    # print("len of word is: ", len(word))
                     if user_input[idx] != word[idx]:
-                        color = 'red'
-                    else: color = Color(144,238,144)
+                        color = 'red' #if wrong make color red 
+                    else: color = Color(0,100,0)  #if correct make text greem
                 displayedSentence.render_to(text_surf, (x,baseline), letter, color)
                 x += metric[hAdvance]
             screen.blit(text_surf, displayed_sentence_text_rect)
