@@ -10,6 +10,9 @@ import sqlite3 as sql
 # main program
 def main():
     pygame.init()
+    
+    #window name
+    pygame.display.set_caption('SpeedyFingers')
 
     #creates speedyfingersDB.db with DBsetup.py
     DB.createDB()
@@ -28,8 +31,11 @@ def introScreen(screen, w, h):
     background = pygame.image.load('intro.png')
     background = pygame.transform.scale(background, (w, h))
 
-    #create main menu button
-    nextScreenButton = Button((360, 560), (345, 100), (98,219,200), "Go to Main Menu")
+    #create arrow to main menu button
+    arrowImg = pygame.image.load("arrow.png").convert_alpha()
+    arrowImg = pygame.transform.scale(arrowImg, (250, 250))
+    arrowImg = pygame.transform.rotate(arrowImg, 10)
+    arrowButton = ButtonImage(705, 560, arrowImg)
 
     # event listener loop
     while True:
@@ -38,13 +44,16 @@ def introScreen(screen, w, h):
                 pygame.quit()
                 quit()
 
-            if nextScreenButton.is_clicked(event):
-                print("button pressed")
-                mainMenu(screen, w, h) #go to main menu
+            #if arrow is clicked
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if arrowButton.draw(screen):
+                    print("arrow button pressed")
+                    mainMenu(screen, w, h) #go to main menu
 
         # blit screen with background & draw button
         screen.blit(background, (0, 0))
-        nextScreenButton.draw(screen)
+        screen.blit(arrowImg,(700,475))
+
         pygame.display.update()
 
 # main menu screen
@@ -437,6 +446,34 @@ class Button(object):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 return self.rect.collidepoint(event.pos)
+
+
+#Button Image Class
+class ButtonImage(object):
+    def __init__(self, x, y, image):
+        self.image = image
+        self.rect = self.image.get_rect()
+        self.rect.topleft = (x,y)
+        self.clicked = False
+
+    def draw(self, screen):
+        action = False
+        #get mouse position
+        pos = pygame.mouse.get_pos()
+        if self.rect.collidepoint(pos):
+            if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False:
+                self.clicked = True
+                action = True
+
+        if pygame.mouse.get_pressed()[0] == 0:
+            self.clicked = False
+
+
+        #draw button on screen
+        screen.blit(self.image, (self.rect.x, self.rect.y))
+        return action
+
+
 
 #call to main to play :)
 main()
