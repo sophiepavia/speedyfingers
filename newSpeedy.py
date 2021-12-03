@@ -6,6 +6,7 @@ import time
 import DBsetup as DB #for DBsetup.py
 import random
 import sqlite3 as sql
+import pygame.freetype
 from difflib import SequenceMatcher #for percent calculation
 
 # main program
@@ -128,10 +129,28 @@ def play(screen, w,h):
     pygame.draw.rect(screen,(102,255,243), (50,300,900,100), 2)
 
     #display sentence to type
-    font = pygame.font.Font(None, 24)
-    text = font.render(word, 1,(240,240,240))
-    text_rect = text.get_rect(center=(1000/2, 275))
-    screen.blit(text, text_rect)
+    # tempFont = pygame.font.Font(None, 24)
+    # tempText = tempFont.render(word, 1,(240,240,240))
+    # temp_text_rect = tempText.get_rect(center=(1000/2, 275))
+    # print(text_rect)
+    # screen.blit(text, text_rect)
+
+    ## CHANGES #############################################
+    currentIdx = 0
+    displayedSentence = pygame.freetype.Font(None, 20)
+    displayedSentence.origin = True
+    fontHeight = displayedSentence.get_sized_height()
+    hAdvance = 4
+    displayed_sentence_text_rect = displayedSentence.get_rect(word)
+
+    baseline = displayed_sentence_text_rect.y
+    text_surf = pygame.Surface(displayed_sentence_text_rect.size)
+    displayed_sentence_text_rect.center = [500,275]
+
+    metrics = displayedSentence.get_metrics(word)
+
+
+    #########################################################
 
     #display directions
     font = pygame.font.Font(None, 20)
@@ -146,7 +165,9 @@ def play(screen, w,h):
 
     running=True #state of game
     while running:
-
+        first = True
+        newKey = False
+        finished = False
         #start time clock
         clock = pygame.time.Clock()
 
@@ -210,10 +231,18 @@ def play(screen, w,h):
                     backButton.draw(screen)
 
                     #display new sentence
-                    font = pygame.font.Font(None, 24)
-                    text = font.render(word, 1,(240,240,240))
-                    text_rect = text.get_rect(center=(1000/2, 275))
-                    screen.blit(text, text_rect)
+                    currentIdx = 0
+                    displayedSentence = pygame.freetype.Font(None, 20)
+                    displayedSentence.origin = True
+                    fontHeight = displayedSentence.get_sized_height()
+                    hAdvance = 4
+                    displayed_sentence_text_rect = displayedSentence.get_rect(word)
+
+                    baseline = displayed_sentence_text_rect.y
+                    text_surf = pygame.Surface(displayed_sentence_text_rect.size)
+                    displayed_sentence_text_rect.center = [500, 275]
+
+                    metrics = displayedSentence.get_metrics(word)
 
                     #display directions
                     font = pygame.font.Font(None, 21)
@@ -227,8 +256,20 @@ def play(screen, w,h):
             elif event.type == pygame.KEYDOWN:
                 #if game is cur active & not over
                 if isActive and not end:
+                    ###### CHANGE ###############################
+                    if event.unicode and event.key != pygame.K_RETURN and event.key != pygame.K_BACKSPACE:
+                        currentIdx += 1
+                        newKey = True
+
+                    ######################################
+                    if event.key == pygame.K_BACKSPACE:
+                        currentIdx -= 1
+                        newKey = True
                     #if return key is pressed
-                    if event.key == pygame.K_RETURN:
+                    if event.key == pygame.K_RETURN or currentIdx == len(word):
+                        print("finished")
+                        finished = True
+                        newKey = False
 
                         #to terminal
                         print(user_input)
@@ -288,6 +329,26 @@ def play(screen, w,h):
             elif backButton.is_clicked(event):
                 mainMenu(screen, 1000, 750)
 
+        if first == True or newKey == True and finished == False:
+            text_surf.fill('white')
+            x = 0
+            for (idx,(letter, metric)) in enumerate(zip(word, metrics)):
+                if idx == currentIdx:
+                    color = 'lightgrey'
+                elif idx > currentIdx:
+                    color = 'black'
+                elif idx < len(word)-2:
+                    # print("current index is:", idx)t
+                    # print("len of user input is: ", len(user_input))
+                    # print("len of word is: ", len(word))
+                    if user_input[idx] != word[idx]:
+                        color = 'red'
+                    else: color = Color(144,238,144)
+                displayedSentence.render_to(text_surf, (x,baseline), letter, color)
+                x += metric[hAdvance]
+            screen.blit(text_surf, displayed_sentence_text_rect)
+            newKey = False
+            first = False
     #clock by seconds
     clock.tick(60)
 
