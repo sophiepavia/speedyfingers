@@ -2,9 +2,7 @@
 
 ## Execute
 Download zip from github  
-`$ pip install pygame`
-
-`$ pip install button`
+`$ pip install necessary libraries`
 
 `$ sudo apt install sqlite3`
 
@@ -23,6 +21,7 @@ a speed typing application/game for users to test, improve, and challenge their 
 
 ## Libraries
 - pygame
+- pygame.freetype
 - button
 - sys
 - time
@@ -32,14 +31,19 @@ a speed typing application/game for users to test, improve, and challenge their 
 
 ## Resources
 https://www.pygame.org/docs/
+For button class: https://stackoverflow.com/questions/47981842/how-do-i-create-a-pygame-with-multiple-menus
 ## Added Features 
 We implemented the main goals of our project proposal for having the modes play, check stats, and look at directions
 
 ## Seperation of Work
-- Sophie:Project plan, overall logic, play mode,stat mode, directions mode, graphics, database connection & query
+- Sophie:Project plan, overall logic, play mode,stat mode, directions mode, graphics, database connection & query, overall code functionality
 - Alessandra:project plan, intro screen, arrow button, overall logic, play mode, stat mode, directions mode, graphics, database connection & query 
-- Diego:project plan, inital skelton of project, Button CLass, database creation (DBsetup.py), function set up, menu page
+- Diego:project plan, inital skelton of project, Button Class, database creation (DBsetup.py), function set up, text color change as user types
 
 ## Bugs/Obstacles Faced
 Due to time constraints there is only one level of 'play' (one level of difficulity). We also only went with using one DB for storing user stats instead of one for user stats, another for storing sentences. We no longer use pandas library (said in status report 2). 
+
+## GitHub Link
+https://github.com/sophiepavia/speedyfingers
+
 
