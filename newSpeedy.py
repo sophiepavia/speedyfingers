@@ -254,8 +254,9 @@ def play(screen, w,h):
                         currentIdx -= 1
                         newKey = True
                     #if return key is pressed
-                    if event.key == pygame.K_RETURN or currentIdx == len(word):
+                    if event.key == pygame.K_RETURN or currentIdx == len(word)+1:
                         print("finished")
+                        #user_input += event.unicode
                         finished = True
                         newKey = False
 
