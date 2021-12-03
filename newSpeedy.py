@@ -31,14 +31,11 @@ def introScreen(screen, w, h):
     background = pygame.image.load('intro.png')
     background = pygame.transform.scale(background, (w, h))
 
-    #create main menu button
-    nextScreenButton = Button((360, 560), (345, 100), (98,219,200), "Go to Main Menu")
-
+    #create arrow to main menu button
     arrowImg = pygame.image.load("arrow.png").convert_alpha()
     arrowImg = pygame.transform.scale(arrowImg, (250, 250))
     arrowImg = pygame.transform.rotate(arrowImg, 10)
     arrowButton = ButtonImage(705, 560, arrowImg)
-
 
     # event listener loop
     while True:
@@ -47,19 +44,10 @@ def introScreen(screen, w, h):
                 pygame.quit()
                 quit()
 
-
-            if nextScreenButton.is_clicked(event):
-                print("button pressed")
-                mainMenu(screen, w, h) #go to main menu
-
-        # blit screen with background & draw button
-        screen.blit(background, (0, 0))
-        nextScreenButton.draw(screen)
-
-
+            #if arrow is clicked
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if arrowButton.draw(screen):
-                    #print("arrow button pressed")
+                    print("arrow button pressed")
                     mainMenu(screen, w, h) #go to main menu
 
         # blit screen with background & draw button
