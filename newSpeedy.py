@@ -1,6 +1,7 @@
 import pygame
 import button
 from pygame.locals import *
+import pygame.freetype
 import sys
 import time
 import DBsetup as DB
@@ -61,8 +62,86 @@ def mainMenu(screen, w, h):
         screen.blit(background, (0, 0))
         playButton.draw(screen)
         statsButton.draw(screen)
-        otherButton.draw(screen)
-        pygame.display.update()
+
+# play mode screen
+def play(screen, w,h):
+
+    #function var for sentences
+    user_input = ''
+    word = ''
+    #for timing 
+    start = 0
+    totalTime = 0
+    #wpm stats 
+    wpm = 0
+    #game mode vars
+    isActive = False
+    reset = False
+    end = False
+
+    #pull random sentence from txt file
+    file = open('sentences.txt').read()
+    sentences = file.split('\n')
+    word= random.choice(sentences)
+
+    #set play background
+    background = pygame.image.load('play.png')
+    background = pygame.transform.scale(background, (w, h))
+
+    #set & blit screen for background
+    screen.fill((0,0,0))
+    screen.blit(background, (0,0))
+
+    #draw text box
+    pygame.draw.rect(screen,(102,255,243), (50,300,900,100), 2)
+
+    #display sentence to type
+    VIEJO
+    font = pygame.font.Font(None, 24)
+    text = font.render(word, 1,(240,240,240))
+
+    # #NUEVO
+    currentIdx = 0
+    # font = pygame.freetype.Font(None, 24)
+    # font.origin = True
+    # fHeight = font.get_sized_height()
+    # # print("Freetype font height is: ", fHeight)
+    # horAdvance = 4
+    # text_rect = font.get_rect(word)
+    # baseline = text_rect
+
+
+
+    text_rect = text.get_rect(center=(1000/2, 275))
+    screen.blit(text, text_rect)
+
+    #display directionsa
+    font = pygame.font.Font(None, 20)
+    text = font.render("Click box to type", 1,(240,240,240))
+    text_rect = text.get_rect(center=(500, 415))
+    screen.blit(text, text_rect)
+
+    #back button
+    backButton = Button((50, 600), (200, 90), (240,240,240), "Back to Main")
+    backButton.draw(screen)
+
+
+    running=True #state of game
+    while running:
+
+        #start time clock
+        clock = pygame.time.Clock()
+
+        #draw rect box
+        screen.fill((240,240,240), (50,300,900,100))
+        pygame.draw.rect(screen,(102,255,243), (50,300,900,100), 2)
+
+        #updates user's input string
+        font = pygame.font.Font(None, 24)
+        text = font.render(user_input, 1,(105,105,105))
+        text_rect = text.get_rect(center=(1000/2, 350))
+        screen.blit(text, text_rect)
+
 
 
 class Button(object):
